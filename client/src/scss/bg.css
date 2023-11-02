@@ -1,0 +1,16 @@
+.bg-animation {
+    /* background-size: 1000% 1000%; */
+    /* -webkit-animation: BackgroundAnimation 70s ease infinite;
+    -moz-animation: BackgroundAnimation 70s ease infinite;
+    -o-animation: BackgroundAnimation 70s ease infinite; */
+    animation: BackgroundAnimation 10s linear infinite;
+    /* height: 900; */
+  }
+  
+  @keyframes BackgroundAnimation {
+    0%{background-position:0% 0%}
+    25%{background-position:100% 0%}
+    50%{background-position:100% 100%}
+    75%{background-position:0% 100%}
+    100%{background-position:0% 0%}
+}
