@@ -36,6 +36,12 @@ export const getSpotifyCurrentSong = async () => {
 
 export const getLyrics = async ({ track, artist }) => {
   return await axios.get(
-    `${process.env.REACT_APP_BACKEND_BASE_URL}/mxm/get-lyrics/${track}/${artist}`
+    `${process.env.REACT_APP_BACKEND_BASE_URL}/mxm/lyrics/${track}/${artist}`
+  );
+};
+
+export const getLyricsColors = async ({ track, artist }) => {
+  return await axios.get(
+    `${process.env.REACT_APP_BACKEND_BASE_URL}/gpt/lyrics/${track}/${artist}`
   );
 };

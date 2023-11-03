@@ -9,10 +9,17 @@ const MXMController = (app) => {
       q_artist: req.params.artist,
       apikey: process.env.MXM_ACCESS_TOKEN,
     });
-
-    const search = await axios.get(
-      `${MXM_BASE_URL}/track.search?${url.toString()}`
-    );
+    let search;
+    try {
+      search = await axios.get(
+        `${MXM_BASE_URL}/track.search?${url.toString()}`
+      );
+    } catch (e) {
+      if (e.message.header.status_code > 200) {
+        res.sendStatus(404);
+        return;
+      }
+    }
 
     console.log(req.params)
     console.log(req.params.track)
@@ -25,14 +32,30 @@ const MXMController = (app) => {
       apikey: process.env.MXM_ACCESS_TOKEN,
     });
 
-    const lyrics = await axios.get(
-      `${MXM_BASE_URL}/track.lyrics.get?${url.toString()}`
-    );
+    let lyrics;
 
-    res.send(lyrics.data.message.body.lyrics.lyrics_body);
+    try {
+      lyrics = await axios.get(
+        `${MXM_BASE_URL}/track.lyrics.get?${url.toString()}`
+      );
+    } catch (e) {
+      if (e.message.header.status_code > 200) {
+        res.sendStatus(404);
+        return;
+      }
+    }
+    console.log(lyrics.data)
+    console.log(lyrics.data.message.body)
+    const { lyrics_body } = lyrics.data.message.body.lyrics;
+    const parseLyrics = lyrics_body.split("*******")[0];
+    
+    console.log(parseLyrics)
+    res.json(parseLyrics)
+    // res.json(JSON.stringify(parseLyrics));
+    // res.json(lyrics)
   };
 
-  app.get("/mxm/get-lyrics/:track/:artist", getLyrics);
+  app.get("/mxm/lyrics/:track/:artist", getLyrics);
 };
 
 export default MXMController;
